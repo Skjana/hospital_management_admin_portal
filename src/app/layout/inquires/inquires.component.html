@@ -1,0 +1,237 @@
+<div class="inquiries-container">
+  <div class="inquiries-header">
+    <h1>Customer Inquiries</h1>
+    <p>Manage and respond to customer inquiries</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-number">{{ getTotalInquiries() }}</span>
+        <span class="stat-label">Total Inquiries</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon pending">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-number">{{ getPendingCount() }}</span>
+        <span class="stat-label">Pending</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon resolved">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-info">
+        <span class="stat-number">{{ getResolvedCount() }}</span>
+        <span class="stat-label">Resolved</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters-bar">
+    <div class="filter-group">
+      <select class="filter-select"  (change)="applyFilter()">
+        <option value="all">All Inquiries</option>
+        <option value="pending">Pending</option>
+        <option value="resolved">Resolved</option>
+        <option value="in-progress">In Progress</option>
+      </select>
+    </div>
+    <div class="search-group">
+      <input type="text" class="search-input" placeholder="Search inquiries..."  (input)="applySearch()">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+  </div>
+
+<div class="table-container">
+  <table class="inquiries-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inquiry of filteredInquiries">
+        <td>#{{ inquiry.id }}</td>
+        <td>{{ inquiry.date | date:'MMM dd, yyyy' }}</td>
+        <td>{{ inquiry.fullName }}</td>
+        <td>{{ inquiry.email }}</td>
+        <td>
+          <span class="inquiry-type" [ngClass]="'type-' + inquiry.inquiryType">
+            {{ getInquiryTypeLabel(inquiry.inquiryType) }}
+          </span>
+        </td>
+        <td>
+          <span class="status" [ngClass]="'status-' + inquiry.status.toLowerCase().replace(' ', '-')">
+            {{ inquiry.status }}
+          </span>
+        </td>
+        <td class="actions-cell">
+          <button class="btn-view" (click)="viewInquiry(inquiry)" title="View Inquiry">
+            <i class="fas fa-eye"></i>
+          </button>
+          <button class="btn-reply" (click)="replyToInquiry(inquiry)" title="Reply">
+            <i class="fas fa-reply"></i>
+          </button>
+          <button class="btn-delete" (click)="confirmDelete(inquiry)" title="Delete Inquiry">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+  <div class="modal" *ngIf="selectedInquiry && showViewModal">
+  <div class="modal-content large-modal">
+    <div class="modal-header">
+      <h2>Inquiry Details</h2>
+      <button class="close-button" (click)="closeViewModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="inquiry-details">
+        <div class="inquiry-header">
+          <div class="inquiry-info">
+            <h3>{{ selectedInquiry.fullName }}</h3>
+            <p class="inquiry-id">Inquiry #{{ selectedInquiry.id }}</p>
+          </div>
+          <div class="inquiry-status-info">
+            <span class="status" [ngClass]="'status-' + selectedInquiry.status.toLowerCase().replace(' ', '-')">
+              {{ selectedInquiry.status }}
+            </span>
+          </div>
+        </div>
+        
+        <div class="inquiry-grid">
+          <div class="detail-group">
+            <label>Email Address</label>
+            <p>{{ selectedInquiry.email }}</p>
+          </div>
+          <div class="detail-group">
+            <label>Phone Number</label>
+            <p>{{ selectedInquiry.phone || 'Not provided' }}</p>
+          </div>
+          <div class="detail-group">
+            <label>Inquiry Type</label>
+            <p>{{ getInquiryTypeLabel(selectedInquiry.inquiryType) }}</p>
+          </div>
+          <div class="detail-group">
+            <label>Date Submitted</label>
+            <p>{{ selectedInquiry.date | date:'MMM dd, yyyy - HH:mm' }}</p>
+          </div>
+        </div>
+
+        <div class="message-section">
+          <label>Message</label>
+          <div class="message-content">
+            {{ selectedInquiry.message }}
+          </div>
+        </div>
+
+        <div class="status-actions">
+          <label>Update Status</label>
+          <div class="status-buttons">
+            <button class="btn-status pending" (click)="updateStatus('Pending')" 
+                    [class.active]="selectedInquiry.status === 'Pending'">
+              Pending
+            </button>
+            <button class="btn-status in-progress" (click)="updateStatus('In Progress')" 
+                    [class.active]="selectedInquiry.status === 'In Progress'">
+              In Progress
+            </button>
+            <button class="btn-status resolved" (click)="updateStatus('Resolved')" 
+                    [class.active]="selectedInquiry.status === 'Resolved'">
+              Resolved
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-reply-modal" (click)="replyToInquiry(selectedInquiry)">
+          <i class="fas fa-reply"></i> Reply to Customer
+        </button>
+        <button class="btn-close" (click)="closeViewModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="modal" *ngIf="showReplyModal && replyInquiry">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Reply to Inquiry</h2>
+        <button class="close-button" (click)="closeReplyModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="reply-info">
+          <p><strong>To:</strong> {{ replyInquiry.fullName }} ({{ replyInquiry.email }})</p>
+          <p><strong>Subject:</strong> Re: {{ getInquiryTypeLabel(replyInquiry.inquiryType) }} Inquiry #{{ replyInquiry.id }}</p>
+        </div>
+        
+        <form class="reply-form" (ngSubmit)="sendReply()">
+          <div class="form-group">
+            <label for="replyMessage">Your Reply *</label>
+            <textarea id="replyMessage" name="replyMessage" 
+                      class="form-control" rows="8" placeholder="Type your reply here..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="closeReplyModal()">Cancel</button>
+            <button type="submit" class="btn-send" [disabled]="!replyMessage.trim()">
+              <i class="fas fa-paper-plane"></i> Send Reply
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showDeleteModal && deleteInquiry">
+    <div class="modal-content small-modal">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button class="close-button" (click)="closeDeleteModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="delete-confirmation">
+          <div class="warning-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="delete-message">
+            <h3>Delete Inquiry?</h3>
+            <p>Are you sure you want to delete inquiry #{{ deleteInquiry.id }} from <strong>{{ deleteInquiry.fullName }}</strong>?</p>
+            <p class="warning-text">This action cannot be undone.</p>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="closeDeleteModal()">Cancel</button>
+          <button class="btn-delete-confirm" (click)="deleteInquiryConfirm()">
+            <i class="fas fa-trash"></i> Delete Inquiry
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,679 +1,105 @@
-<!-- Header -->
-<div class="header-fixed">
-    <div class="header">
-      <div class="header-title">
-        <div class="title-content">
-          <p></p>
-        </div>
+<p>dashboard works!</p>
+<div class="dashboard-container"  [class.sidebar-collapsed]="isSidebarCollapsed">
+  <!-- Fixed Sidebar -->
+  <div class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-header">
+      <i class="fas fa-heart-pulse"></i>
+      <h2>ADMIN PORTAL</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" routerLink="/layout" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" routerLink="/layout/manage-departments" routerLinkActive="active">
+        <i class="fas fa-hospital"></i>
+        <span>Departments</span>
+      </a>
+      <a class="nav-item" routerLink="/layout/role-management" routerLinkActive="active">
+        <i class="fa fa-user-plus"></i>
+        <span>User Role</span>
+      </a>
+      <a class="nav-item" routerLink="/layout/doctors-management" routerLinkActive="active">
+        <i class="fas fa-user-md"></i>
+        <span>Doctors</span>
+      </a>
+      <a class="nav-item" routerLink="/layout/patient-management" routerLinkActive="active">
+        <i class="fas fa-procedures"></i>
+        <span>Patients</span>
+      </a>
+      <a class="nav-item" routerLink="/layout/staff-management" routerLinkActive="active">
+        <i class="fas fa-users"></i>
+        <span>Staff</span>
+      </a>
+      <a class="nav-item" routerLink="/customer/reports" routerLinkActive="active">
+        <i class="fas fa-chart-line"></i>
+        <span>Reports</span>
+      </a>
+      <a class="nav-item" routerLink="/layout/inquires" routerLinkActive="active">
+         <i class="fas fa-question-circle"></i>
+         <span>Inquiries</span>
+      </a> 
+      <a class="nav-item" routerLink="/layout/settings" routerLinkActive="active">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Fixed Top Bar -->
+    <div class="top-bar">
+    <button class="toggle-sidebar" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search...">
       </div>
-      <div class="header-actions">
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search..." />
+      <div class="top-bar-actions">
+        <div class="notification-icon">
+          <i class="fas fa-bell"></i>
+          <span class="notification-badge">
+          </span>
+          <!-- Notifications Dropdown -->
+          <!-- <div class="notifications-dropdown" >
+            <div class="notification-item">
+              <div class="notification-content">
+                <p></p>
+                <small></small>
+              </div>
+            </div>
+          </div> -->
         </div>
-        <div class="user-info">
-          <div class="notification-icon">
-            <i class="fas fa-bell"></i>
-            <div class="notification-badge">5</div>
-          </div>
-          <div class="user-avatar" (click)="toggleUserDropdown($event)">JK</div>
-          <div class="user-dropdown" #userDropdown [class.active]="dropdownActive">
-            <div class="dropdown-item">
+        <div class="user-menu" (click)="toggleUserMenu()">
+          <img src="assets/images/profile.png" alt="User Avatar" class="user-avatar">
+          <span></span>
+          <!-- User Menu Dropdown -->
+          <div class="user-dropdown" *ngIf="showUserMenu">
+            <a class="dropdown-item" routerLink="/layout/profile">
               <i class="fas fa-user"></i>
-              <span>Profile</span>
-            </div>
-            <div class="dropdown-item">
+              Profile
+            </a>
+            <a class="dropdown-item" routerLink="/layout/settings">
               <i class="fas fa-cog"></i>
-              <span>Settings</span>
-            </div>
-            <div class="dropdown-item">
+              Settings
+            </a>
+            <a class="dropdown-item"  (click)="logout()">
               <i class="fas fa-sign-out-alt"></i>
-              <span>Logout</span>
-            </div>
+              Logout
+            </a>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  
-  <!-- Layout -->
-  <div class="layout">
-    <!-- Sidebar -->
-    <div class="sidebar" #sidebar>
-      <div class="logo">
-        <i class="fas fa-heart-pulse logo-icon"></i>
-        <h2>VitalCare Admin</h2>
-      </div>
-  
-      <div class="sidebar-section">
-        <div class="sidebar-title" (click)="toggleSidebarSection($event)">
-          <span>Main</span>
-          <i class="fas fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="menu-items-container">
-          <div class="menu-item active">
-            <i class="fas fa-th-large"></i>
-            <span>Dashboard</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-question-circle"></i>
-            <span>Inquiries</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-calendar-alt"></i>
-            <span>Appointments</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-user-md"></i>
-            <span>Doctors</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-procedures"></i>
-            <span>Patients</span>
-          </div>
-        </div>
-      </div>
-  
-      <div class="sidebar-section">
-        <div class="sidebar-title" (click)="toggleSidebarSection($event)">
-          <span>Management</span>
-          <i class="fas fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="menu-items-container">
-          <div class="menu-item">
-            <i class="fas fa-hospital"></i>
-            <span>Departments</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-pills"></i>
-            <span>Pharmacy</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-file-medical-alt"></i>
-            <span>Lab Tests</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-ambulance"></i>
-            <span>Emergency</span>
-          </div>
-        </div>
-      </div>
-  
-      <div class="sidebar-section">
-        <div class="sidebar-title" (click)="toggleSidebarSection($event)">
-          <span>Administration</span>
-          <i class="fas fa-chevron-down toggle-icon"></i>
-        </div>
-        <div class="menu-items-container">
-          <div class="menu-item">
-            <i class="fas fa-money-bill-wave"></i>
-            <span>Finance</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-chart-line"></i>
-            <span>Reports</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-users"></i>
-            <span>Staff</span>
-          </div>
-          <div class="menu-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Main Content -->
-    <div class="main-content" #mainContent>
-      <h2>Hospital Overview</h2>
-      <p>Welcome back, Admin! Here's what's happening today.</p>
-      
-   <div style=" padding: 20px; margin-top: 20px; background-color: #e8ecef; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-   <!-- Quick Actions -->
-   <div class="quick-actions">
-    <div class="quick-action">
-        <div class="quick-action-icon" style="background-color: rgba(15, 118, 110, 0.1); color: var(--primary);">
-            <i class="fas fa-user-plus"></i>
-        </div>
-        <div class="quick-action-info">
-            <div class="quick-action-title">Add Patient</div>
-            <div class="quick-action-desc">Register a new patient</div>
-        </div>
-    </div>
-    
-    <div class="quick-action">
-        <div class="quick-action-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">
-            <i class="fas fa-calendar-plus"></i>
-        </div>
-        <div class="quick-action-info">
-            <div class="quick-action-title">New Appointment</div>
-            <div class="quick-action-desc">Schedule appointment</div>
-        </div>
-    </div>
-    
-    <div class="quick-action">
-        <div class="quick-action-icon" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning);">
-            <i class="fas fa-bed"></i>
-        </div>
-        <div class="quick-action-info">
-            <div class="quick-action-title">Bed Allocation</div>
-            <div class="quick-action-desc">Manage room assignments</div>
-        </div>
-    </div>
-    
-    <div class="quick-action">
-        <div class="quick-action-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger);">
-            <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <div class="quick-action-info">
-            <div class="quick-action-title">Emergency</div>
-            <div class="quick-action-desc">Urgent case management</div>
-        </div>
-    </div>
-</div>
-
-<!-- Stats Row -->
-<div class="row">
-  <div class="col col-3">
-      <div class="stats-card">
-          <div class="stats-icon primary">
-              <i class="fas fa-user-injured"></i>
-          </div>
-          <div class="stats-info">
-              <div class="stats-value">248</div>
-              <div class="stats-label">Total Patients</div>
-              <div class="stats-indicator">
-                  <i class="fas fa-arrow-up indicator-up"></i> 
-                  <span>12% this week</span>
-              </div>
-          </div>
-      </div>
-  </div>
-  
-  <div class="col col-3">
-      <div class="stats-card">
-          <div class="stats-icon success">
-              <i class="fas fa-calendar-check"></i>
-          </div>
-          <div class="stats-info">
-              <div class="stats-value">53</div>
-              <div class="stats-label">Appointments Today</div>
-              <div class="stats-indicator">
-<i class="fas fa-arrow-up indicator-up"></i> 
-                  <span>8% this week</span>
-              </div>
-          </div>
-      </div>
-  </div>
-  
-  <div class="col col-3">
-      <div class="stats-card">
-          <div class="stats-icon warning">
-              <i class="fas fa-bed"></i>
-          </div>
-          <div class="stats-info">
-              <div class="stats-value">85%</div>
-              <div class="stats-label">Bed Occupancy</div>
-              <div class="stats-indicator">
-                  <i class="fas fa-arrow-up indicator-up"></i> 
-                  <span>5% this week</span>
-              </div>
-          </div>
-      </div>
-  </div>
-  
-  <div class="col col-3">
-      <div class="stats-card">
-          <div class="stats-icon danger">
-              <i class="fas fa-heartbeat"></i>
-          </div>
-          <div class="stats-info">
-              <div class="stats-value">12</div>
-              <div class="stats-label">Critical Patients</div>
-              <div class="stats-indicator">
-                  <i class="fas fa-arrow-down indicator-down"></i> 
-                  <span>3% this week</span>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>
-
-<!-- Charts Row -->
-<div class="row">
-  <div class="col col-8">
-      <div class="card">
-          <div class="card-header">
-              <div class="card-title">Patient Statistics</div>
-              <div class="card-actions">
-                  <div class="period-selector active">Weekly</div>
-                  <div class="period-selector">Monthly</div>
-                  <div class="period-selector">Yearly</div>
-                  <div class="card-menu">
-                      <i class="fas fa-ellipsis-v"></i>
-                  </div>
-              </div>
-          </div>
-          <div class="chart-container">
-              <div class="chart-line chart-line-1"></div>
-              <div class="chart-line chart-line-2"></div>
-              <div class="chart-line chart-line-3"></div>
-              <div class="chart-line chart-line-4"></div>
-              <div class="chart-bars">
-                  <div class="chart-bar">
-                      <div class="chart-bar-fill" style="height: 65%; background-color: var(--primary);"></div>
-                      <div class="chart-bar-label">Mon</div>
-                  </div>
-                  <div class="chart-bar">
-                      <div class="chart-bar-fill" style="height: 40%; background-color: var(--primary-light);"></div>
-                      <div class="chart-bar-label">Tue</div>
-                  </div>
-                  <div class="chart-bar">
-                      <div class="chart-bar-fill" style="height: 75%; background-color: var(--primary);"></div>
-                      <div class="chart-bar-label">Wed</div>
-                  </div>
-                  <div class="chart-bar">
-                      <div class="chart-bar-fill" style="height: 55%; background-color: var(--primary-light);"></div>
-                      <div class="chart-bar-label">Thu</div>
-                  </div>
-                  <div class="chart-bar">
-                      <div class="chart-bar-fill" style="height: 85%; background-color: var(--primary);"></div>
-                      <div class="chart-bar-label">Fri</div>
-                  </div>
-                  <div class="chart-bar">
-                      <div class="chart-bar-fill" style="height: 50%; background-color: var(--primary-light);"></div>
-                      <div class="chart-bar-label">Sat</div>
-                  </div>
-                  <div class="chart-bar">
-                      <div class="chart-bar-fill" style="height: 35%; background-color: var(--primary);"></div>
-                      <div class="chart-bar-label">Sun</div>
-                  </div>
-              </div>
-          </div>
-          <div class="chart-legend">
-              <div class="legend-item">
-                  <span class="legend-color legend-inpatient"></span>
-                  <span>Inpatient</span>
-              </div>
-              <div class="legend-item">
-                  <span class="legend-color legend-outpatient"></span>
-                  <span>Outpatient</span>
-              </div>
-          </div>
-      </div>
-  </div>
-  
-  <div class="col col-4">
-      <div class="card">
-          <div class="card-header">
-              <div class="card-title">Recent Activities</div>
-              <div class="card-menu">
-                  <i class="fas fa-ellipsis-v"></i>
-              </div>
-          </div>
-          <div class="activity-item">
-              <div class="activity-icon" style="background-color: rgba(15, 118, 110, 0.1); color: var(--primary);">
-                  <i class="fas fa-user-plus"></i>
-              </div>
-              <div class="activity-info">
-                  <div class="activity-title">New patient registered</div>
-                  <div class="activity-time">10 minutes ago</div>
-              </div>
-          </div>
-          <div class="activity-item">
-              <div class="activity-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">
-                  <i class="fas fa-calendar-check"></i>
-              </div>
-              <div class="activity-info">
-                  <div class="activity-title">Appointment confirmed with Dr. Johnson</div>
-                  <div class="activity-time">45 minutes ago</div>
-              </div>
-          </div>
-          <div class="activity-item">
-              <div class="activity-icon" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning);">
-                  <i class="fas fa-bed"></i>
-              </div>
-              <div class="activity-info">
-                  <div class="activity-title">Room 305 assigned to patient #12458</div>
-                  <div class="activity-time">2 hours ago</div>
-              </div>
-          </div>
-          <div class="activity-item">
-              <div class="activity-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger);">
-                  <i class="fas fa-file-medical-alt"></i>
-              </div>
-              <div class="activity-info">
-                  <div class="activity-title">Lab results updated for patient #09872</div>
-                  <div class="activity-time">3 hours ago</div>
-              </div>
-          </div>
-      </div>
-  </div>
     </div>
 
-            <!-- Department Table -->
-        <div class="row">
-              <div class="col col-12">
-                  <div class="card">
-                      <div class="card-header">
-                          <div class="card-title">Department Status</div>
-                          <div class="card-actions">
-                              <button class="button btn-outline">
-                                  <i class="fas fa-download"></i> Export
-                              </button>
-                              <button class="button btn-primary" style="margin-left: 10px;">
-                                  <i class="fas fa-plus"></i> Add Department
-                              </button>
-                          </div>
-                      </div>
-                      <div class="table-container">
-                          <table class="admin-table">
-                              <thead>
-                                  <tr>
-                                      <th>Department</th>
-                                      <th>Staff</th>
-                                      <th>Patients</th>
-                                      <th>Status</th>
-                                      <th>Capacity</th>
-                                      <th>Actions</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>
-                                          <div class="department-info">
-                                              <div class="department-icon">
-                                                  <i class="fas fa-heart"></i>
-                                              </div>
-                                              <div>
-                                                  <span class="department-name">Cardiology</span>
-                                                  <span class="department-subtitle">Heart Center</span>
-                                              </div>
-                                          </div>
-                                      </td>
-                                      <td>12</td>
-                                      <td>48</td>
-                                      <td><span class="status-badge status-busy">Busy</span></td>
-                                      <td>
-                                          <div class="progress-container">
-                                              <div class="progress-bar progress-medium" style="width: 75%;"></div>
-                                          </div>
-                                      </td>
-                                      <td>
-                                          <div class="table-actions">
-                                              <div class="action-button action-edit">
-                                                  <i class="fas fa-edit"></i>
-                                              </div>
-                                              <div class="action-button action-delete">
-                                                  <i class="fas fa-trash"></i>
-                                              </div>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div class="department-info">
-                                              <div class="department-icon">
-                                                  <i class="fas fa-brain"></i>
-                                              </div>
-                                              <div>
-                                                  <span class="department-name">Neurology</span>
-                                                  <span class="department-subtitle">Brain & Spine Center</span>
-                                              </div>
-                                          </div>
-                                      </td>
-                                      <td>8</td>
-                                      <td>32</td>
-                                      <td><span class="status-badge status-available">Available</span></td>
-                                      <td>
-                                          <div class="progress-container">
-                                              <div class="progress-bar progress-high" style="width: 50%;"></div>
-                                          </div>
-                                      </td>
-                                      <td>
-                                          <div class="table-actions">
-                                              <div class="action-button action-edit">
-                                                  <i class="fas fa-edit"></i>
-                                              </div>
-                                              <div class="action-button action-delete">
-                                                  <i class="fas fa-trash"></i>
-                                              </div>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div class="department-info">
-                                              <div class="department-icon">
-                                                  <i class="fas fa-baby"></i>
-                                              </div>
-                                              <div>
-                                                  <span class="department-name">Pediatrics</span>
-                                                  <span class="department-subtitle">Children's Care</span>
-                                              </div>
-                                          </div>
-                                      </td>
-                                      <td>15</td>
-                                      <td>67</td>
-                                      <td><span class="status-badge status-full">Full</span></td>
-                                      <td>
-                                          <div class="progress-container">
-                                              <div class="progress-bar progress-low" style="width: 95%;"></div>
-                                          </div>
-                                      </td>
-                                      <td>
-                                          <div class="table-actions">
-                                              <div class="action-button action-edit">
-                                                  <i class="fas fa-edit"></i>
-                                              </div>
-                                              <div class="action-button action-delete">
-                                                  <i class="fas fa-trash"></i>
-                                              </div>
-                                          </div>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          <div class="department-info">
-                                              <div class="department-icon">
-                                                  <i class="fas fa-bone"></i>
-                                              </div>
-                                              <div>
-                                                  <span class="department-name">Orthopedics</span>
-                                                  <span class="department-subtitle">Bone & Joint Center</span>
-                                              </div>
-                                          </div>
-                                      </td>
-                                      <td>10</td>
-                                      <td>42</td>
-                                      <td><span class="status-badge status-available">Available</span></td>
-                                      <td>
-                                          <div class="progress-container">
-                                              <div class="progress-bar progress-high" style="width: 60%;"></div>
-                                          </div>
-                                      </td>
-                                      <td>
-                                          <div class="table-actions">
-                                              <div class="action-button action-edit">
-                                                  <i class="fas fa-edit"></i>
-                                              </div>
-                                              <div class="action-button action-delete">
-                                                  <i class="fas fa-trash"></i>
-                                              </div>
-                                          </div>
-                                      </td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          
-   <!-- Doctors and Notifications -->
-<div class="row">
-    <div class="col col-8">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">Top Doctors</div>
-                <div class="card-actions">
-                    <button class="button btn-primary">
-                        <i class="fas fa-user-md"></i> View All Doctors
-                    </button>
-                </div>
-            </div>
-            <div class="table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Doctor</th>
-                            <th>Specialty</th>
-                            <th>Today's Schedule</th>
-                            <th>Patients</th>
-                            <th>Rating</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="doctor-info">
-                                    <div class="doctor-avatar">JW</div>
-                                    <div>
-                                        <span class="doctor-name">Dr. Keman Sharp</span>
-                                        <span class="doctor-specialty">Cardiology</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Cardiologist</td>
-                            <td>9:00 AM - 4:00 PM</td>
-                            <td>8 / 12</td>
-                            <td>
-                                <div style="color: var(--warning);">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                    <span style="color: var(--dark); margin-left: 5px;">4.8</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="doctor-info">
-                                    <div class="doctor-avatar">SC</div>
-                                    <div>
-                                        <span class="doctor-name">Dr. Anoja Pushpalingam</span>
-                                        <span class="doctor-specialty">Neurology</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Neurologist</td>
-                            <td>10:00 AM - 6:00 PM</td>
-                            <td>6 / 10</td>
-                            <td>
-                                <div style="color: var(--warning);">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <span style="color: var(--dark); margin-left: 5px;">5.0</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="doctor-info">
-                                    <div class="doctor-avatar">MP</div>
-                                    <div>
-                                        <span class="doctor-name">Dr. Januka Ramanathan</span>
-                                        <span class="doctor-specialty">Pediatrics</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Pediatrician</td>
-                            <td>8:00 AM - 3:00 PM</td>
-                            <td>12 / 15</td>
-                            <td>
-                                <div style="color: var(--warning);">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <span style="color: var(--dark); margin-left: 5px;">4.2</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <router-outlet></router-outlet>
+
     </div>
-    
-    <div class="col col-4">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">Notifications</div>
-                <div class="card-menu">
-                    <i class="fas fa-ellipsis-v"></i>
-                </div>
-            </div>
-            <div class="notification-item">
-                <div class="notification-title">
-                    <span class="unread-indicator"></span>
-                    Emergency Department Alert
-                </div>
-                <div class="notification-desc">
-                    Multiple trauma cases incoming. Staff needed.
-                </div>
-                <div class="notification-time">10 minutes ago</div>
-            </div>
-            <div class="notification-item">
-                <div class="notification-title">
-                    <span class="unread-indicator"></span>
-                    System Maintenance
-                </div>
-                <div class="notification-desc">
-                    Scheduled system update at 2:00 AM tomorrow.
-                </div>
-                <div class="notification-time">45 minutes ago</div>
-            </div>
-            <div class="notification-item">
-                <div class="notification-title">
-                    Laboratory Results Ready
-                </div>
-                <div class="notification-desc">
-                    Patient #12458 lab results are complete.
-                </div>
-                <div class="notification-time">2 hours ago</div>
-            </div>
-            <div class="notification-item">
-                <div class="notification-title">
-                    Staff Meeting Reminder
-                </div>
-                <div class="notification-desc">
-                    Department heads meeting tomorrow at 9:00 AM.
-                </div>
-                <div class="notification-time">Yesterday</div>
-            </div>
-            <div class="notification-item">
-                <div class="notification-title">
-                    New Policy Update
-                </div>
-                <div class="notification-desc">
-                    Review updated visitation policy for COVID-19.
-                </div>
-                <div class="notification-time">Yesterday</div>
-            </div>
-        </div>
-    </div>
+  </div>
 
-</div>
+</div> 
 
-
-</div>
-</div>

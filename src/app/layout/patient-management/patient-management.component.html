@@ -1,0 +1,166 @@
+<div class="patient-container">
+
+  <div class="patient-header">
+    <h1>Patient Management</h1>
+     <p>Manage, view, and edit patient records within the system</p>
+  </div>
+
+  <div class="actions-bar">
+    <button class="btn-new-payment">
+      <i class="fas fa-plus"></i> New Patient
+    </button>
+  </div>
+
+  <div class="filters-bar">
+    <div class="filter-group">
+      <select class="filter-select">
+        <option value="all">All Patients</option>
+        <option value="inpatient">Inpatient</option>
+        <option value="outpatient">Outpatient</option>
+        <option value="emergency">Emergency</option>
+        <option value="discharged">Discharged</option>
+      </select>
+    </div>
+    <div class="search-group">
+      <input type="text" class="search-input" placeholder="Search patients...">
+      <i class="fas fa-search search-icon"></i>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="payments-table">
+      <thead>
+        <tr>
+          <th>Patient Id</th>
+          <th>Patient Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Phone</th>
+          <th>Department</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of patients">
+          <td>{{ patient.id }}</td>
+          <td>{{ patient.name }}</td>
+          <td>{{ patient.age }}</td>
+          <td>{{ patient.gender }}</td>
+          <td>{{ patient.phone }}</td>
+          <td>{{ patient.department }}</td>
+          <td>{{ patient.status }}</td>
+          <td class="actions-cell">
+            <button class="btn-view" title="View Patient" (click)="openViewModal(patient)">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn-reply" title="Edit Patient" (click)="openEditModal(patient)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-delete" title="Delete Patient" (click)="openDeleteModal(patient)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal" *ngIf="showDeleteModal">
+    <div class="modal-content small-modal">
+      <div class="modal-header">
+        <h2>Confirm Delete</h2>
+        <button class="close-button" (click)="closeDeleteModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="delete-confirmation">
+          <div class="warning-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="delete-message">
+            <h3>Delete Patient Record?</h3>
+            <p>Are you sure you want to delete this patient record?</p>
+            <p class="warning-text">This action cannot be undone.</p>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" (click)="closeDeleteModal()">Cancel</button>
+          <button class="btn-delete-confirm" (click)="confirmDelete()">
+            <i class="fas fa-trash"></i> Delete Patient
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- View/Edit Patient Modal -->
+<div class="modal" *ngIf="showFormModal">
+  <div class="modal-content small-modal">
+    <div class="modal-header">
+      <h2>{{ isEditMode ? 'Edit Patient' : 'View Patient' }}</h2>
+      <button class="close-button" (click)="closeFormModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+<div class="modal-body">
+    <form>
+    <div style="margin-bottom: 1rem;">
+      <label for="patient-id">Patient ID:</label>
+      <input id="patient-id" type="text" name="patientId" [readonly]="!isEditMode" class="search-input" />
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <label for="patient-name">Patient Name:</label>
+      <input id="patient-name" type="text" name="patientName" [readonly]="!isEditMode" class="search-input"/>
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <label for="patient-age">Age:</label>
+      <input id="patient-age" type="number" name="patientAge" [readonly]="!isEditMode" class="search-input" />
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <label for="patient-gender">Gender:</label>
+      <select id="patient-gender" name="patientGender" [disabled]="!isEditMode" class="filter-select">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <label for="patient-phone">Phone:</label>
+      <input id="patient-phone" type="tel" name="patientPhone" [readonly]="!isEditMode" class="search-input"/>
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <label for="patient-department">Department:</label>
+      <select id="patient-department" name="patientDepartment" [disabled]="!isEditMode" class="filter-select">
+        <option value="Cardiology">Cardiology</option>
+        <option value="Neurology">Neurology</option>
+        <option value="Orthopedics">Orthopedics</option>
+        <option value="Pediatrics">Pediatrics</option>
+        <option value="Emergency">Emergency</option>
+        <option value="General Medicine">General Medicine</option>
+      </select>
+    </div>
+    <div style="margin-bottom: 1rem;">
+      <label for="patient-status">Status:</label>
+      <select id="patient-status" name="patientStatus" [disabled]="!isEditMode" class="filter-select">
+        <option value="Inpatient">Inpatient</option>
+        <option value="Outpatient">Outpatient</option>
+        <option value="Emergency">Emergency</option>
+        <option value="Discharged">Discharged</option>
+      </select>
+    </div>
+
+    <div class="modal-actions" *ngIf="isEditMode">
+      <button type="button" class="btn-cancel" (click)="closeFormModal()">Cancel</button>
+      <button type="button" class="btn-delete-confirm" (click)="savePatient()">
+        <i class="fas fa-save"></i> Save
+      </button>
+    </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+</div>

@@ -1,0 +1,110 @@
+<div class="profile-container">
+        <div class="profile-header">
+            <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+            <button class="btn-primary" onclick="toggleEditMode()">
+                <i class="fas fa-edit"></i>Edit Profile
+            </button>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-image-section">
+                <div class="profile-image">
+                    <img src="assets/images/profile.png" alt="Profile Picture" id="profileImg">
+                    <div class="image-upload">
+                        <label for="imageUpload" class="upload-btn">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="imageUpload" accept="image/*" hidden onchange="previewImage(this)">
+                    </div>
+                </div>
+                <h2 id="displayName">Admin</h2>
+                <p class="user-role"><i class="fas fa-user-injured"></i> Admin</p>
+                
+                <div style="margin-top: 20px; padding: 15px; background: rgba(0, 128, 128, 0.05); border-radius: 10px; border-left: 4px solid #008080;">
+                    <p style="color: #008080; font-weight: 600; margin: 0; font-size: 0.9rem;">
+                        <i class="fas fa-info-circle"></i> Admin ID: #A2024001
+                    </p>
+                </div>
+            </div>
+
+            <form class="profile-form" id="profileForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" name="name" value="" required>
+                        <div class="error-message" style="display: none;">
+                            Name is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" name="email" value="" required>
+                        <div class="error-message" style="display: none;">
+                            Please enter a valid email
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" name="phone" value="" required>
+                        <div class="error-message" style="display: none;">
+                            Please enter a valid 10-digit phone number
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-calendar-alt"></i> Date of Birth</label>
+                        <input type="date" name="dateOfBirth" value="" required>
+                        <div class="error-message" style="display: none;">
+                            Date of birth is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-tint"></i> Blood Group</label>
+                        <select name="bloodGroup" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+" selected>A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                        <div class="error-message" style="display: none;">
+                            Blood group is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-phone-alt"></i> Emergency Contact</label>
+                        <input type="tel" name="emergencyContact" value="" required>
+                        <div class="error-message" style="display: none;">
+                            Emergency contact is required
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <textarea name="address" rows="3" required></textarea>
+                    <div class="error-message" style="display: none;">
+                        Address is required
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="cancelEdit()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+

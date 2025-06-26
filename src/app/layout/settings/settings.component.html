@@ -1,0 +1,422 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>Admin Settings</h1>
+    <p class="settings-subtitle">Manage system configuration and administrative preferences</p>
+  </div>
+
+  <div class="settings-content">
+    <div class="settings-tabs">
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'system'"
+        (click)="activeTab = 'system'">
+        <i class="fas fa-cogs"></i>
+        System
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'users'"
+        (click)="activeTab = 'users'">
+        <i class="fas fa-users"></i>
+        User Management
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'notifications'"
+        (click)="activeTab = 'notifications'">
+        <i class="fas fa-bell"></i>
+        Notifications
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'security'"
+        (click)="activeTab = 'security'">
+        <i class="fas fa-shield-alt"></i>
+        Security
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="activeTab === 'backup'"
+        (click)="activeTab = 'backup'">
+        <i class="fas fa-database"></i>
+        Backup & Logs
+      </button>
+    </div>
+
+    <!-- System Settings Panel -->
+    <div class="settings-panel" *ngIf="activeTab === 'system'">
+      <h2>System Configuration</h2>
+      <form>
+        <div class="settings-group">
+          <h3>Hospital Information</h3>
+          <div class="form-group">
+            <label>Hospital Name</label>
+            <input type="text" formControlName="hospitalName" placeholder="Enter hospital name">
+          </div>
+          <div class="form-group">
+            <label>Hospital Address</label>
+            <textarea formControlName="hospitalAddress" rows="3" placeholder="Enter complete address"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Contact Number</label>
+              <input type="tel" formControlName="contactNumber" placeholder="+1 (555) 123-4567">
+            </div>
+            <div class="form-group">
+              <label>Emergency Number</label>
+              <input type="tel" formControlName="emergencyNumber" placeholder="+1 (555) 911-0000">
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>System Preferences</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Maintenance Mode</label>
+              <p>Enable maintenance mode to restrict system access</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="maintenanceMode">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Auto Backup</label>
+              <p>Automatically backup system data daily</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="autoBackup">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>System Logs</label>
+              <p>Enable detailed system activity logging</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="systemLogs">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Save System Settings</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- User Management Panel -->
+    <div class="settings-panel" *ngIf="activeTab === 'users'">
+      <h2>User Management Settings</h2>
+      <form>
+        <div class="settings-group">
+          <h3>Registration Settings</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Allow Patient Self-Registration</label>
+              <p>Patients can create accounts without admin approval</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="patientSelfReg">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Staff Registration Approval</label>
+              <p>Require admin approval for new staff accounts</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="staffApproval">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Default User Role</label>
+            <select formControlName="defaultRole">
+              <option value="patient">Patient</option>
+              <option value="staff">Staff</option>
+              <option value="doctor">Doctor</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Account Policies</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Password Expiry (days)</label>
+              <input type="number" formControlName="passwordExpiry" min="30" max="365" placeholder="90">
+            </div>
+            <div class="form-group">
+              <label>Session Timeout (minutes)</label>
+              <input type="number" formControlName="sessionTimeout" min="15" max="480" placeholder="60">
+            </div>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Account Lockout</label>
+              <p>Lock accounts after multiple failed login attempts</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="accountLockout">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Save User Settings</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div class="settings-panel" *ngIf="activeTab === 'notifications'">
+      <h2>Admin Notification Preferences</h2>
+      <form>
+        <div class="settings-group">
+          <h3>System Alerts</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>System Error Alerts</label>
+              <p>Get notified about critical system errors</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="systemErrors">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Low Storage Warnings</label>
+              <p>Alert when system storage is running low</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="storageWarnings">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Security Breach Alerts</label>
+              <p>Immediate notification of security incidents</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="securityAlerts">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>User Activity Notifications</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>New User Registrations</label>
+              <p>Get notified when new users register</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="newUserAlerts">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Failed Login Attempts</label>
+              <p>Alert on suspicious login activities</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="failedLoginAlerts">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Communication Preferences</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Email Notifications</label>
+              <p>Receive admin notifications via email</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="adminEmailNotifications">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>SMS Alerts</label>
+              <p>Receive critical alerts via SMS</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="adminSmsAlerts">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Save Notification Settings</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Security Panel -->
+    <div class="settings-panel" *ngIf="activeTab === 'security'">
+      <h2>Security Settings</h2>
+      <form>
+        <div class="settings-group">
+          <h3>Admin Password</h3>
+          <div class="form-group">
+            <label>Current Password</label>
+            <input type="password" formControlName="currentPassword">
+            <div class="error-message">
+              Current password is required
+            </div>
+          </div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" formControlName="newPassword">
+            <div class="error-message">
+              Password must be at least 8 characters long
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Confirm New Password</label>
+            <input type="password" formControlName="confirmPassword">
+            <div class="error-message">
+              Passwords do not match
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Multi-Factor Authentication</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Enable Admin 2FA</label>
+              <p>Require two-factor authentication for admin access</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="adminTwoFactorAuth">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>Enforce 2FA for Staff</label>
+              <p>Require all staff to use two-factor authentication</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="enforce2FA">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>Access Control</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <label>IP Address Restrictions</label>
+              <p>Restrict admin access to specific IP addresses</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" formControlName="ipRestrictions">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="form-group" >
+            <label>Allowed IP Addresses</label>
+            <textarea formControlName="allowedIPs" rows="3" placeholder="Enter IP addresses (one per line)"></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Save Security Settings</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Backup & Logs Panel -->
+    <div class="settings-panel" *ngIf="activeTab === 'backup'">
+      <h2>Backup & System Logs</h2>
+      <form>
+        <div class="settings-group">
+          <h3>Backup Configuration</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Backup Frequency</label>
+              <select formControlName="backupFrequency">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Backup Time</label>
+              <input type="time" formControlName="backupTime" value="02:00">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Backup Retention (days)</label>
+            <input type="number" formControlName="backupRetention" min="7" max="365" placeholder="30">
+          </div>
+          <div class="backup-actions">
+            <button type="button" class="btn-secondary">
+              <i class="fas fa-download"></i>
+              Create Manual Backup
+            </button>
+            <button type="button" class="btn-secondary">
+              <i class="fas fa-upload"></i>
+              Restore from Backup
+            </button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <h3>System Logs</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Log Level</label>
+              <select formControlName="logLevel">
+                <option value="error">Error Only</option>
+                <option value="warning">Warning & Error</option>
+                <option value="info">Info, Warning & Error</option>
+                <option value="debug">All (Debug Mode)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Log Retention (days)</label>
+              <input type="number" formControlName="logRetention" min="7" max="90" placeholder="30">
+            </div>
+          </div>
+          <div class="log-actions">
+            <button type="button" class="btn-secondary">
+              <i class="fas fa-eye"></i>
+              View System Logs
+            </button>
+            <button type="button" class="btn-secondary">
+              <i class="fas fa-download"></i>
+              Export Logs
+            </button>
+            <button type="button" class="btn-danger">
+              <i class="fas fa-trash"></i>
+              Clear Old Logs
+            </button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Save Backup Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
