@@ -10,6 +10,7 @@ import { ManageDepartmentsComponent } from './manage-departments/manage-departme
 import { PatientManagementComponent } from './patient-management/patient-management.component';
 import { StaffManagementComponent } from './staff-management/staff-management.component';
 import { DoctorsManagementComponent } from './doctors-management/doctors-management.component';
+import { DiagnosticComponent } from './diagnostic/diagnostic.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,10 @@ const routes: Routes = [
       {
         path:'inquires',
         component:InquiresComponent
+      },
+      {
+        path:'diagnostic',
+        component:DiagnosticComponent
       },
       {
         path:'profile',

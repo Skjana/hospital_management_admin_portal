@@ -1,0 +1,134 @@
+<div class="staff-container">
+  <div class="staff-header">
+    <h1>Login Activity Dashboard</h1>
+    <p>Monitor and track user login patterns and security-related events.</p>
+  </div>
+
+<div class="dashboard-stats">
+  <div class="stat-card success">
+    <h3>Total Successful Logins</h3>
+    <p>{{ successfulLogins }}</p>
+  </div>
+  <div class="stat-card failure">
+    <h3>Total Failed Logins</h3>
+    <p>{{ failedLogins }}</p>
+  </div>
+  <div class="stat-card warning">
+    <h3>High Invalid Attempts</h3>
+    <p>{{ highInvalidAttempts }}</p>
+  </div>
+</div>
+
+  <div class="table-container">
+    <table class="staff-table">
+      <thead>
+        <tr>
+          <!-- <th>Login ID</th> -->
+          <th>Username</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Invalid Attempts</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let login of loginActivity">
+          <!-- <td>{{ login.userLoginDetailsId }}</td> -->
+          <td>{{ login.username }}</td>
+          <td>{{ login.loginDate }}</td>
+          <td>{{ login.loginTime }}</td>
+          <td>
+            <span [class]="'badge ' + (login.isSuccess ? 'success' : 'failure')">
+              {{ login.isSuccess ? 'Success' : 'Failed' }}
+            </span>
+          </td>
+          <td>{{ login.invalidLoginCount }}</td>
+          <td class="actions-cell">
+            <button class="btn-view" title="View Login" (click)="viewLogin(login)">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn-delete" title="Delete Login" (click)="deleteLogin(login)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <ul class="pagination-list">
+      <li class="pagination-item prev" [class.disabled]="currentPage === 1">
+        <a href="#" (click)="$event.preventDefault(); prevPage()">
+          <i class="fas fa-chevron-left"></i> Prev
+        </a>
+      </li>
+      <li class="pagination-item" [class.active]="currentPage === 1">
+        <a href="#" (click)="$event.preventDefault(); goToPage(1)">1</a>
+      </li>
+      <li class="pagination-item" [class.active]="currentPage === 2" *ngIf="totalPages >= 2">
+        <a href="#" (click)="$event.preventDefault(); goToPage(2)">2</a>
+      </li>
+      <li class="pagination-item" [class.active]="currentPage === 3" *ngIf="totalPages >= 3">
+        <a href="#" (click)="$event.preventDefault(); goToPage(3)">3</a>
+      </li>
+      <li class="pagination-item" [class.active]="currentPage === 4" *ngIf="totalPages >= 4">
+        <a href="#" (click)="$event.preventDefault(); goToPage(4)">4</a>
+      </li>
+      <li class="pagination-item" [class.active]="currentPage === 5" *ngIf="totalPages >= 5">
+        <a href="#" (click)="$event.preventDefault(); goToPage(5)">5</a>
+      </li>
+      <li class="pagination-item next" [class.disabled]="currentPage === totalPages">
+        <a href="#" (click)="$event.preventDefault(); nextPage()">
+          Next <i class="fas fa-chevron-right"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+<!-- Add Diagnostic Modal -->
+<div class="modal" *ngIf="showViewModal">
+  <div class="modal-content large-modal">
+    <div class="modal-header">
+      <button class="close-button" (click)="closeViewModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form class="diagnostic-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="loginId">Login ID:</label>
+            <input type="text" id="loginId" class="form-control" [value]="selectedLogin?.userLoginDetailsId" readonly>
+          </div>
+          <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" class="form-control" [value]="selectedLogin?.username" readonly>
+          </div>
+          <div class="form-group">
+            <label for="loginDate">Date:</label>
+            <input type="text" id="loginDate" class="form-control" [value]="selectedLogin?.loginDate" readonly>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="loginTime">Time:</label>
+            <input type="text" id="loginTime" class="form-control" [value]="selectedLogin?.loginTime" readonly>
+          </div>
+          <div class="form-group">
+            <label for="status">Status:</label>
+            <input type="text" id="status" class="form-control" [value]="selectedLogin?.isSuccess ? 'Success' : 'Failed'" readonly>
+          </div>
+          <div class="form-group">
+            <label for="invalidAttempts">Invalid Attempts:</label>
+            <input type="text" id="invalidAttempts" class="form-control" [value]="selectedLogin?.invalidLoginCount" readonly>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</div>

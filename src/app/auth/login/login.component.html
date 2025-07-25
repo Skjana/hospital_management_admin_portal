@@ -82,7 +82,7 @@
             </div>
             
             <div class="otp-inputs">
-                <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" (input)="onOtpInput($event, 0)">
+                <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" (input)="onOtpInput($event, 0)" (paste)="handlePaste($event)">
                 <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" (input)="onOtpInput($event, 1)">
                 <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" (input)="onOtpInput($event, 2)">
                 <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" (input)="onOtpInput($event, 3)">

@@ -12,6 +12,7 @@ import { PatientManagementComponent } from './patient-management/patient-managem
 import { ManageDepartmentsComponent } from './manage-departments/manage-departments.component';
 import { StaffManagementComponent } from './staff-management/staff-management.component';
 import { DoctorsManagementComponent } from './doctors-management/doctors-management.component';
+import { DiagnosticComponent } from './diagnostic/diagnostic.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { DoctorsManagementComponent } from './doctors-management/doctors-managem
     ManageDepartmentsComponent,
     StaffManagementComponent,
     DoctorsManagementComponent,
+    DiagnosticComponent,
   ],
   imports: [
     CommonModule,

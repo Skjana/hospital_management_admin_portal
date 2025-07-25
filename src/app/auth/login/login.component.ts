@@ -126,6 +126,24 @@ onOtpInput(event: any, index: number): void {
   }
 }
 
+handlePaste(event: ClipboardEvent): void {
+  event.preventDefault();
+  const pastedText = event.clipboardData?.getData('text') || '';
+  const digits = pastedText.replace(/\D/g, '').slice(0, 4).split('');
+
+  const inputs = Array.from(document.querySelectorAll('.otp-input')) as HTMLInputElement[];
+  digits.forEach((digit, i) => {
+    if (inputs[i]) {
+      inputs[i].value = digit;
+      const fakeEvent = { target: inputs[i] };
+      this.onOtpInput(fakeEvent, i);
+    }
+  });
+
+  const nextInput = inputs[digits.length] || inputs[3]; 
+  nextInput?.focus();
+}
+
   resendOtp(): void {
     alert('OTP Resent!');
   }
